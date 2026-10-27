@@ -1,0 +1,36 @@
+#define potensio A0
+#define red 12
+#define green 7
+
+int nilai;
+
+void setup() {
+  // Memulai komunikasi serial dengan kecepatan 9600 bps
+  Serial.begin(9600);
+  
+  // Mengatur pin LED sebagai OUTPUT
+  pinMode(red, OUTPUT);
+  pinMode(green, OUTPUT);
+}
+
+void loop() {
+  // Membaca nilai tegangan dari potensiometer (rentang 0 - 1023)
+  nilai = analogRead(potensio);
+  
+  // Menampilkan nilai pembacaan ke Serial Monitor
+  Serial.println(nilai);
+  
+  // Percabangan logika untuk menentukan LED mana yang menyala
+  if (nilai > 500) {
+    // Jika nilai potensiometer lebih dari 500: Nyalakan Merah, Matikan Hijau
+    digitalWrite(red, HIGH);
+    digitalWrite(green, LOW);
+  } else {
+    // Jika nilai potensiometer 500 atau kurang: Matikan Merah, Nyalakan Hijau
+    digitalWrite(red, LOW);
+    digitalWrite(green, HIGH);
+  }
+  
+  // Jeda kecil agar pembacaan dan tampilan serial lebih stabil
+  delay(50);
+}
