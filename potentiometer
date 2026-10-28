@@ -15,7 +15,7 @@ void setup() {
 
 void loop() {
   // Membaca nilai tegangan dari potensiometer (rentang 0 - 1023)
-  nilai = analogRead(potensio);
+  nilai = analogRead(potensio);  //membaca sinyal tegangan analog dari pin yang sudah ditentukan (potensio)
   
   // Menampilkan nilai pembacaan ke Serial Monitor
   Serial.println(nilai);
