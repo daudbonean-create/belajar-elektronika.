@@ -1,0 +1,30 @@
+#include <Servo.h>
+
+#define pinServo 7
+#define pinPotentio A0
+  
+Servo myservo;
+
+void setup(){
+  Serial.begin(9600);
+  myservo.attach(pinServo);
+  myservo.write(145);  // berarti {memerintahkan} motor servo untuk berputar ke posisi tengah (145 derajat).
+}
+
+void loop(){
+  // 1. Membaca nilai tegangan dari potensiometer
+  int konversi = analogRead(pinPotentio);
+  
+  // 2. Mengubah rentang nilai potensiometer menjadi sudut derajat servo
+  // map(value, fromLow, fromHigh, toLow, toHigh)
+  konversi = map(konversi, 0, 1023, 0, 180);
+
+  // 3. Menampilkan hasil konversi sudut ke Serial Monitor
+  Serial.println(konversi);
+  
+  // 4. memerintahkan motor servo untuk bergerak sesuai nilai sudut yang baru
+  myservo.write(konversi);
+  
+  // Jeda kecil agar pembacaan dan pergerakan lebih stabil
+  delay(15);
+}
