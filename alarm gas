@@ -1,0 +1,68 @@
+
+#include <Adafruit_LiquidCrystal.h>
+
+// Inisialisasi LCD
+Adafruit_LiquidCrystal lcd(0);
+
+// Deklarasi pin
+const int sensor_gas = A0;
+const int LedMerah = 2;
+const int LedHijau = 3;
+const int buzzer = 4;
+
+// Nilai ambang batas sensor
+int sensorThres = 130;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(sensor_gas, INPUT);
+  pinMode(LedMerah, OUTPUT);
+  pinMode(LedHijau, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+
+  lcd.begin(16, 2);
+  lcd.clear();
+}
+
+void loop() {
+
+  // Membaca nilai analog sensor gas
+  int analogSensor = analogRead(sensor_gas);
+
+  // Menampilkan nilai gas pada Serial Monitor
+  Serial.print("Nilai Gas: ");
+  Serial.println(analogSensor);
+
+  // Menentukan posisi tulisan LCD
+  lcd.setCursor(0, 0);
+
+  if (analogSensor > sensorThres) {
+
+    // Kondisi gas terdeteksi
+    lcd.print("Gas Bocor !!    ");
+
+    digitalWrite(LedMerah, HIGH);
+    digitalWrite(LedHijau, LOW);
+
+    tone(buzzer, 1000, 200);
+
+  } else {
+
+    // Kondisi gas di bawah threshold
+    lcd.print("Gas Aman        ");
+
+    digitalWrite(LedMerah, LOW);
+    digitalWrite(LedHijau, HIGH);
+
+    noTone(buzzer);
+  }
+
+  // Menampilkan nilai gas pada baris kedua LCD
+  lcd.setCursor(0, 1);
+  lcd.print("Nilai Gas: ");
+  lcd.print(analogSensor);
+  lcd.print("   ");
+
+  // Jeda pembacaan selama 1 detik
+  delay(1000);
+}
